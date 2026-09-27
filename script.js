@@ -1,7 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, serverTimestamp,
+  query, orderBy, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
 // ======= CONFIGURACIÓN =======
 const EVENT_DATE = new Date(2026, 9, 3, 21, 30, 0); // 3 de octubre de 2026, 9:30 PM (mes 9 = octubre, 0-indexado)
 const WHATSAPP_NUMBER = "573114214930"; // Colombia (+57) + 311 421 4930. Cambia el código de país si no es Colombia.
-const RSVP_MESSAGE = "¡Hola! 🎉 Confirmo que SÍ voy a tu cumpleaños. ¡Nos vemos para bailar y disfrutar! 🥳🍾";
+
+// ======= FIREBASE =======
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const rsvpsRef = collection(db, "rsvps");
 
 // ======= AUDIO / PANTALLA DE INICIO =======
 const overlay = document.getElementById("start-overlay");
@@ -32,9 +43,57 @@ muteBtn.addEventListener("click", () => {
   }
 });
 
-// ======= RSVP POR WHATSAPP =======
+// ======= RSVP: MODAL + FIREBASE =======
 const rsvpBtn = document.getElementById("rsvp-btn");
-rsvpBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(RSVP_MESSAGE)}`;
+const nameModal = document.getElementById("name-modal");
+const nameForm = document.getElementById("name-form");
+const nameInput = document.getElementById("name-input");
+const modalCancelBtn = document.getElementById("modal-cancel-btn");
+const confirmadosList = document.getElementById("confirmados-list");
+const confirmadosCount = document.getElementById("confirmados-count");
+
+rsvpBtn.addEventListener("click", () => {
+  nameModal.classList.add("visible");
+  nameInput.focus();
+});
+
+modalCancelBtn.addEventListener("click", () => {
+  nameModal.classList.remove("visible");
+});
+
+nameModal.addEventListener("click", (e) => {
+  if (e.target === nameModal) nameModal.classList.remove("visible");
+});
+
+nameForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = nameInput.value.trim();
+  if (!name) return;
+
+  try {
+    await addDoc(rsvpsRef, { name, timestamp: serverTimestamp() });
+  } catch (err) {
+    console.error("No se pudo guardar en Firebase:", err);
+    alert("No se pudo guardar tu confirmación, pero de igual forma te llevamos a WhatsApp.");
+  }
+
+  const whatsappMessage = `¡Hola! 🎉 Soy ${name} y confirmo que SÍ voy a tu cumpleaños. ¡Nos vemos para bailar y disfrutar! 🥳🍾`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
+
+  nameInput.value = "";
+  nameModal.classList.remove("visible");
+});
+
+// Lista de confirmados en vivo
+onSnapshot(query(rsvpsRef, orderBy("timestamp", "asc")), (snapshot) => {
+  confirmadosList.innerHTML = "";
+  snapshot.forEach((doc) => {
+    const li = document.createElement("li");
+    li.textContent = doc.data().name;
+    confirmadosList.appendChild(li);
+  });
+  confirmadosCount.textContent = snapshot.size;
+});
 
 // ======= CONTADOR REGRESIVO =======
 const daysEl = document.getElementById("days");

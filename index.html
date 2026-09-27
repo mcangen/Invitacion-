@@ -75,15 +75,33 @@
       </div>
       <p class="countdown-msg fade-in delay-5" id="countdown-msg"></p>
 
-      <a href="#" id="rsvp-btn" class="rsvp-btn fade-in delay-6" target="_blank" rel="noopener">
+      <button id="rsvp-btn" class="rsvp-btn fade-in delay-6" type="button">
          CONFIRMAR ASISTENCIA
-      </a>
+      </button>
+
+      <div class="confirmados fade-in delay-6" id="confirmados-box">
+        <p class="confirmados-title">🎊 Ya confirmaron <span id="confirmados-count">0</span></p>
+        <ul class="confirmados-list" id="confirmados-list"></ul>
+      </div>
 
       <p class="footer-note fade-in delay-6">No vengas si no vas a tomar, aqui venimos es a tomar licor</p>
 
     </div>
   </main>
 
-  <script src="script.js"></script>
+  <!-- Modal para ingresar el nombre -->
+  <div id="name-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 class="modal-title">¡Genial! 🎉</h3>
+      <p class="modal-subtitle">Escribe tu nombre para confirmar</p>
+      <form id="name-form">
+        <input type="text" id="name-input" placeholder="Tu nombre" maxlength="40" required autocomplete="off">
+        <button type="submit" class="modal-confirm-btn">Confirmar y avisar por WhatsApp</button>
+        <button type="button" class="modal-cancel-btn" id="modal-cancel-btn">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
