@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Estás Invitado! 🎉</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Overlay para permitir el autoplay de audio (los navegadores requieren interacción) -->
+  <div id="start-overlay">
+    <div class="start-content">
+      <p class="start-emoji">🎉🥂🎶</p>
+      <button id="start-btn">TOCA PARA ENTRAR A LA FIESTA</button>
+    </div>
+  </div>
+
+  <div id="confetti-canvas"></div>
+
+  <audio id="bg-music" src="assets/musica.mp3" loop preload="auto"></audio>
+  <button id="mute-btn" title="Silenciar/Activar música">🔊</button>
+
+  <main class="wrapper">
+    <div class="card">
+
+      <p class="eyebrow fade-in delay-1">SE VIENE LA RUMBA</p>
+      <h1 class="title fade-in delay-2">¡Estás invitado a<br><span class="highlight">MI CUMPLEAÑOS</span>!</h1>
+
+      <div class="divider fade-in delay-3">✦ ✦ ✦</div>
+
+      <p class="warning fade-in delay-3">
+         <strong>Regla de oro:</strong> No vengas si no vas a tomar ni a bailar.
+        Aquí venimos a disfrutar la noche al máximo.
+      </p>
+
+      <div class="details fade-in delay-4">
+        <div class="detail-item">
+          <span class="detail-icon">📅</span>
+          <span class="detail-label">Fecha</span>
+          <span class="detail-value" id="detail-date">3 de Octubre</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">🕘</span>
+          <span class="detail-label">Hora</span>
+          <span class="detail-value" id="detail-time">9:30 PM</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">📍</span>
+          <span class="detail-label">Lugar</span>
+          <span class="detail-value" id="detail-address">Mi Casa — Calle 7E #20-14</span>
+        </div>
+      </div>
+
+      <div class="countdown fade-in delay-5" id="countdown">
+        <div class="time-box">
+          <span class="time-number" id="days">00</span>
+          <span class="time-label">Días</span>
+        </div>
+        <div class="time-box">
+          <span class="time-number" id="hours">00</span>
+          <span class="time-label">Horas</span>
+        </div>
+        <div class="time-box">
+          <span class="time-number" id="minutes">00</span>
+          <span class="time-label">Min</span>
+        </div>
+        <div class="time-box">
+          <span class="time-number" id="seconds">00</span>
+          <span class="time-label">Seg</span>
+        </div>
+      </div>
+      <p class="countdown-msg fade-in delay-5" id="countdown-msg"></p>
+
+      <a href="#" id="rsvp-btn" class="rsvp-btn fade-in delay-6" target="_blank" rel="noopener">
+         CONFIRMAR ASISTENCIA
+      </a>
+
+      <p class="footer-note fade-in delay-6">No vengas si no vas a tomar, aqui venimos es a tomar licor</p>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
